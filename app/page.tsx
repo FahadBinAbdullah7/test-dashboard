@@ -425,9 +425,9 @@ export default function RequisitionDashboard() {
                 </h5>
               </div>
               <div className="card-body">
-                <div className="row">
-                  <div className="col-md-2 mb-3">
-                    <label className="form-label">From Date</label>
+                <div className="row g-3">
+                  <div className="col-md-2 col-sm-6 mb-3">
+                    <label className="form-label fw-bold">From Date</label>
                     <input
                       type="date"
                       className="form-control"
@@ -435,8 +435,8 @@ export default function RequisitionDashboard() {
                       onChange={(e) => setDateFrom(e.target.value)}
                     />
                   </div>
-                  <div className="col-md-2 mb-3">
-                    <label className="form-label">To Date</label>
+                  <div className="col-md-2 col-sm-6 mb-3">
+                    <label className="form-label fw-bold">To Date</label>
                     <input
                       type="date"
                       className="form-control"
@@ -444,8 +444,8 @@ export default function RequisitionDashboard() {
                       onChange={(e) => setDateTo(e.target.value)}
                     />
                   </div>
-                  <div className="col-md-2 mb-3">
-                    <label className="form-label">Status</label>
+                  <div className="col-md-2 col-sm-6 mb-3">
+                    <label className="form-label fw-bold">Status</label>
                     <select
                       className="form-select"
                       value={statusFilter}
@@ -458,8 +458,8 @@ export default function RequisitionDashboard() {
                       <option value="rejected">Rejected</option>
                     </select>
                   </div>
-                  <div className="col-md-2 mb-3">
-                    <label className="form-label">Team</label>
+                  <div className="col-md-2 col-sm-6 mb-3">
+                    <label className="form-label fw-bold">Team</label>
                     <select className="form-select" value={teamFilter} onChange={(e) => setTeamFilter(e.target.value)}>
                       <option value="all">All Teams</option>
                       {uniqueTeams.map((team) => (
@@ -469,8 +469,8 @@ export default function RequisitionDashboard() {
                       ))}
                     </select>
                   </div>
-                  <div className="col-md-2 mb-3">
-                    <label className="form-label">Delivery Timeline</label>
+                  <div className="col-md-2 col-sm-6 mb-3">
+                    <label className="form-label fw-bold">Delivery Timeline</label>
                     <select
                       className="form-select"
                       value={deliveryTimelineFilter}
@@ -481,8 +481,8 @@ export default function RequisitionDashboard() {
                       <option value="regular">Regular</option>
                     </select>
                   </div>
-                  <div className="col-md-2 mb-3">
-                    <label className="form-label">&nbsp;</label>
+                  <div className="col-md-2 col-sm-6 mb-3">
+                    <label className="form-label fw-bold">&nbsp;</label>
                     <button
                       className="btn btn-outline-secondary w-100"
                       onClick={() => {
@@ -671,6 +671,8 @@ export default function RequisitionDashboard() {
           }}
           onClick={handleBackdropClick}
         >
+          apparemment
+
           <div className="modal-dialog modal-xl" style={{ margin: '1.75rem auto' }}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               {(() => {
