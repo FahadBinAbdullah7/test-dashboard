@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useRequisitions } from "@/hooks/use-requisitions"
 import { TeamMemberLogin } from "@/components/team-member-login"
 import { TeamManagement } from "@/components/team-management"
@@ -12,7 +12,6 @@ export default function RequisitionDashboard() {
   const [dateFrom, setDateFrom] = useState("")
   const [dateTo, setDateTo] = useState("")
   const [teamFilter, setTeamFilter] = useState("all")
-  const [deliveryTimelineFilter, setDeliveryTimelineFilter] = useState("all")
   const [showLogin, setShowLogin] = useState(false)
   const [viewMode, setViewMode] = useState<"public" | "authenticated">("public")
   const [activeTab, setActiveTab] = useState("dashboard")
@@ -74,10 +73,6 @@ export default function RequisitionDashboard() {
       filtered = filtered.filter((req) => req.assignedTeam?.includes(teamFilter))
     }
 
-    if (deliveryTimelineFilter !== "all") {
-      filtered = filtered.filter((req) => req.deliveryTimeline?.toLowerCase() === deliveryTimelineFilter)
-    }
-
     if (dateFrom || dateTo) {
       filtered = filtered.filter((req) => {
         const reqDate = new Date(req.timestamp)
@@ -92,7 +87,7 @@ export default function RequisitionDashboard() {
     }
 
     return filtered
-  }, [requisitions, statusFilter, teamFilter, deliveryTimelineFilter, dateFrom, dateTo, user])
+  }, [requisitions, statusFilter, teamFilter, dateFrom, dateTo, user])
 
   const getStatusBadge = (status: string) => {
     const statusLower = status?.toLowerCase() || "pending"
@@ -470,19 +465,6 @@ export default function RequisitionDashboard() {
                     </select>
                   </div>
                   <div className="col-md-2 mb-3">
-                    <label className="form-label">Delivery Timeline</label>
-                    <select
-                      className="form-select"
-                      value={deliveryTimelineFilter}
-                      onChange={(e) => setDeliveryTimelineFilter(e.target.value)}
-                    >
-                      <option value="all">All Timelines</option>
-                      <option value="fast">Fast</option>
-                      <option value="standard">Standard</option>
-                      <option value="slow">Slow</option>
-                    </select>
-                  </div>
-                  <div className="col-md-2 mb-3">
                     <label className="form-label">&nbsp;</label>
                     <button
                       className="btn btn-outline-secondary w-100"
@@ -491,7 +473,6 @@ export default function RequisitionDashboard() {
                         setDateTo("")
                         setStatusFilter("all")
                         setTeamFilter("all")
-                        setDeliveryTimelineFilter("all")
                       }}
                     >
                       <i className="bi bi-arrow-clockwise me-1"></i>
