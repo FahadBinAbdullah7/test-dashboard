@@ -12,6 +12,7 @@ export default function RequisitionDashboard() {
   const [dateFrom, setDateFrom] = useState("")
   const [dateTo, setDateTo] = useState("")
   const [teamFilter, setTeamFilter] = useState("all")
+  const [deliveryTimelineFilter, setDeliveryTimelineFilter] = useState("all")
   const [showLogin, setShowLogin] = useState(false)
   const [viewMode, setViewMode] = useState<"public" | "authenticated">("public")
   const [activeTab, setActiveTab] = useState("dashboard")
@@ -82,12 +83,16 @@ export default function RequisitionDashboard() {
       })
     }
 
+    if (deliveryTimelineFilter !== "all") {
+      filtered = filtered.filter((req) => req.deliveryTimeline?.toLowerCase() === deliveryTimelineFilter)
+    }
+
     if (user?.role === "submitter") {
       filtered = filtered.filter((req) => req.email === user.email)
     }
 
     return filtered
-  }, [requisitions, statusFilter, teamFilter, dateFrom, dateTo, user])
+  }, [requisitions, statusFilter, teamFilter, dateFrom, dateTo, deliveryTimelineFilter, user])
 
   const getStatusBadge = (status: string) => {
     const statusLower = status?.toLowerCase() || "pending"
@@ -465,6 +470,18 @@ export default function RequisitionDashboard() {
                     </select>
                   </div>
                   <div className="col-md-2 mb-3">
+                    <label className="form-label">Delivery Timeline</label>
+                    <select
+                      className="form-select"
+                      value={deliveryTimelineFilter}
+                      onChange={(e) => setDeliveryTimelineFilter(e.target.value)}
+                    >
+                      <option value="all">All Timelines</option>
+                      <option value="urgent">Urgent</option>
+                      <option value="regular">Regular</option>
+                    </select>
+                  </div>
+                  <div className="col-md-2 mb-3">
                     <label className="form-label">&nbsp;</label>
                     <button
                       className="btn btn-outline-secondary w-100"
@@ -473,6 +490,7 @@ export default function RequisitionDashboard() {
                         setDateTo("")
                         setStatusFilter("all")
                         setTeamFilter("all")
+                        setDeliveryTimelineFilter("all")
                       }}
                     >
                       <i className="bi bi-arrow-clockwise me-1"></i>
