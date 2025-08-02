@@ -1,38 +1,41 @@
 import { type NextRequest, NextResponse } from "next/server"
 import TeamAuthService from "@/lib/team-auth"
 
-export async function GET() {
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   try {
+    const { name, email, password, team } = await request.json()
     const authService = new TeamAuthService()
-    const teamMembers = authService.getAllTeamMembers()
-    return NextResponse.json(teamMembers)
+
+    const updates: any = { name, email, team }
+    if (password) {
+      updates.password = password // In production, hash this
+    }
+
+    const success = await authService.updateTeamMember(params.id, updates)
+
+    if (success) {
+      return NextResponse.json({ message: "Team member updated successfully" })
+    } else {
+      return NextResponse.json({ error: "Team member not found" }, { status: 404 })
+    }
   } catch (error) {
-    console.error("Error fetching team members:", error)
-    return NextResponse.json({ error: "Failed to fetch team members" }, { status: 500 })
+    console.error("Error updating team member:", error)
+    return NextResponse.json({ error: "Failed to update team member" }, { status: 500 })
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const { name, email, password, team } = await request.json()
-
-    if (!name || !email || !password || !team) {
-      return NextResponse.json({ error: "All fields are required" }, { status: 400 })
-    }
-
     const authService = new TeamAuthService()
-    const newMember = await authService.createTeamMember({
-      email,
-      password, // In production, hash this password
-      name,
-      team,
-      role: "team_member",
-      isActive: true,
-    })
+    const success = await authService.deleteTeamMember(params.id)
 
-    return NextResponse.json(newMember)
+    if (success) {
+      return NextResponse.json({ message: "Team member deleted successfully" })
+    } else {
+      return NextResponse.json({ error: "Team member not found" }, { status: 404 })
+    }
   } catch (error) {
-    console.error("Error creating team member:", error)
-    return NextResponse.json({ error: "Failed to create team member" }, { status: 500 })
+    console.error("Error deleting team member:", error)
+    return NextResponse.json({ error: "Failed to delete team member" }, { status: 500 })
   }
 }
