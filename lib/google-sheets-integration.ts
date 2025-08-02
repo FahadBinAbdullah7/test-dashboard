@@ -138,7 +138,7 @@ export class GoogleSheetsIntegration {
       // Authenticate using the service account
       const auth = new google.auth.JWT({
         email: this.serviceAccountCredentials.client_email,
-        key: this.serviceAccountCredentials.private_key,
+        key: this.serviceAccountCredentials.private_key.replace(/\\n/g, '\n'), // Replace escaped newlines with actual newlines
         scopes: ["https://www.googleapis.com/auth/spreadsheets"],
       })
 
