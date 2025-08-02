@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import TeamAuthService from "@/lib/team-auth"
+import { TeamAuthService } from "@/lib/team-auth"
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   try {
